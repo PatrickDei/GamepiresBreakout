@@ -1,0 +1,10 @@
+﻿  BreakpointController.cpp
+D:\Git repositories\GamepiresBreakout\Breakout_Gamepires\Breakout_Gamepires\Ball.h(7,29): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\Git repositories\GamepiresBreakout\Breakout_Gamepires\Breakout_Gamepires\Ball.h(32,35): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Git repositories\GamepiresBreakout\Breakout_Gamepires\Breakout_Gamepires\BreakpointController.h(24,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Main.cpp
+D:\Git repositories\GamepiresBreakout\Breakout_Gamepires\Breakout_Gamepires\Ball.h(7,29): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\Git repositories\GamepiresBreakout\Breakout_Gamepires\Breakout_Gamepires\Ball.h(32,35): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Git repositories\GamepiresBreakout\Breakout_Gamepires\Breakout_Gamepires\BreakpointController.h(24,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
+  Breakout_Gamepires.vcxproj -> D:\Git repositories\GamepiresBreakout\Breakout_Gamepires\Debug\Breakout_Gamepires.exe

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<params>
+    <totalPlayerHealth>3</totalPlayerHealth>
+    <playerWidth>100</playerWidth>
+    <startingAngles
+        leftAngle="120"
+        rightAngle="60">
+    </startingAngles>
+    <!-- ball speed in pixels/second -->
+    <defaultBallspeed>60</defaultBallspeed>
+    <defaultPlayerSpeed>100</defaultPlayerSpeed>
+</params>

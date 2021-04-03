@@ -1,0 +1,26 @@
+﻿  Ball.cpp
+D:\Git repositories\GamepiresBreakout\Breakout_Gamepires\Breakout_Gamepires\Ball.h(31,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Git repositories\GamepiresBreakout\Breakout_Gamepires\Breakout_Gamepires\Ball.h(32,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  BreakpointController.cpp
+D:\Git repositories\GamepiresBreakout\Breakout_Gamepires\Breakout_Gamepires\BreakpointController.cpp(38,32): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Git repositories\GamepiresBreakout\Breakout_Gamepires\Breakout_Gamepires\BreakpointController.cpp(39,32): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+  BreakpointObject.cpp
+  Main.cpp
+D:\Git repositories\GamepiresBreakout\Breakout_Gamepires\Breakout_Gamepires\Ball.h(31,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Git repositories\GamepiresBreakout\Breakout_Gamepires\Breakout_Gamepires\Ball.h(32,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Player.cpp
+  Wall.cpp
+  Generating code
+  2 of 495 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Breakout_Gamepires.vcxproj -> D:\Git repositories\GamepiresBreakout\Breakout_Gamepires\Release\Breakout_Gamepires.exe
