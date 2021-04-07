@@ -3,6 +3,8 @@
 #include <iostream>
 #include "Ball.h"
 #include "BreakpointController.h"
+#include "SoftBlock.h"
+#include <queue>
 
 using namespace tinyxml2;
 using namespace std;
@@ -17,6 +19,34 @@ int main()
 
     sf::CircleShape ball(5.0f);
 
+    /*sf::SoundBuffer buffer;
+    // load something into the sound buffer...
+    buffer.loadFromFile("Sounds/Hit_01.wav");
+
+    sf::Sound sound;
+    sound.setBuffer(buffer);
+    sound.play();*/  
+
+    sf::SoundBuffer buffer;
+    std::queue<sf::SoundBuffer> bufferQueue;
+    bufferQueue.push(buffer);
+
+    std::queue<sf::Sound> soundQueue;
+    sf::Sound newSound;
+    soundQueue.push(newSound);
+
+    soundQueue.back().setBuffer(bufferQueue.back());
+
+
+    sf::SoundBuffer b;
+    bufferQueue.push(b);
+    
+    sf::Sound s;
+    soundQueue.push(s);
+    soundQueue.back().setBuffer(bufferQueue.back());
+
+    sf::Clock clock;
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -30,11 +60,18 @@ int main()
                 gameController.movePlayer(mousePosition);
             }
         }
-
-        gameController.updateFrame();
+        sf::Time dt = clock.restart();
+        gameController.updateFrame(dt.asSeconds());
 
         ball.setPosition(gameController.getBallInstance().getPosX(), gameController.getBallInstance().getPosY());
 
+        /*if (gameController.soundShouldBePlayed) {
+            gameController.addSoundToBuffer(&bufferQueue.front());
+            gameController.addSoundToBuffer2(&bufferQueue.back());
+        
+            soundQueue.back().play();
+            soundQueue.front().play();
+}*/
         window.clear();
 
         for (sf::RectangleShape shape : gameController.shapesToDraw())
@@ -45,6 +82,8 @@ int main()
 
         window.display();
     }
+
+    gameController.deleteObjects();
 
     return 0;
 }

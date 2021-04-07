@@ -14,8 +14,8 @@ float Ball::getDirectionAngle() {
 }
 
 void Ball::getDirections(float& x, float& y) {
-	x = cos(_direction * PI / 180);
-	y = -sin(_direction * PI / 180);
+	x = (float) cos(_direction * PI / 180);
+	y = (float) -sin(_direction * PI / 180);
 }
 
 void Ball::setDirection(float angle) {
@@ -24,4 +24,9 @@ void Ball::setDirection(float angle) {
 	while (angle >= 360)
 		angle -= 360;
 	_direction = angle;
+}
+
+vector<Point> Ball::getEdgePoints()
+{
+	return vector<Point>();
 }
