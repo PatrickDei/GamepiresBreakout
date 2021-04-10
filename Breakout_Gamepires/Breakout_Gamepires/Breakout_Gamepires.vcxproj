@@ -23,10 +23,13 @@
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BreakpointController.cpp" />
     <ClCompile Include="BreakpointObject.cpp" />
+    <ClCompile Include="HardBlock.cpp" />
+    <ClCompile Include="ImpenetrableBlock.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LevelController.cpp" />
     <ClCompile Include="LevelInitializer.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MediumBlock.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SoftBlock.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
@@ -37,9 +40,12 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="BreakpointController.h" />
     <ClInclude Include="BreakpointObject.h" />
+    <ClInclude Include="HardBlock.h" />
+    <ClInclude Include="ImpenetrableBlock.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelController.h" />
     <ClInclude Include="LevelInitializer.h" />
+    <ClInclude Include="MediumBlock.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SoftBlock.h" />

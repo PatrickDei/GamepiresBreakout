@@ -4,18 +4,24 @@
 #include <SFML/Graphics.hpp>
 #include "Ball.h"
 #include "LevelController.h"
+#include <algorithm>
 
-#define PLAYER_VERTICAL_POSITION 850
 
 class BreakpointController
 {
 private:
-	Ball _ball;
+	Ball _ball;	
+	LevelController _levelController;
 	vector<sf::RectangleShape> _shapes;
 	vector<BreakpointObject*> _objects;
-	LevelController _levelController;
 
 	void addObjects(vector<BreakpointObject*> objects);
+
+	void removeObject(BreakpointObject* objectToRemove);
+
+	void hitObject(BreakpointObject* hitObject);
+
+	void relaunchBall();
 
 public:
 	BreakpointController() {
@@ -25,15 +31,13 @@ public:
 
 		int playerWidth = rootElement->FirstChildElement("playerWidth")->IntText();
 
-		_objects.push_back(new Player(0, PLAYER_VERTICAL_POSITION, playerWidth, 15));
+		_objects.push_back(new Player(0, windowHeight - 50, playerWidth, 15));
 
 		_levelController= LevelController();
-		_ball = Ball(800, PLAYER_VERTICAL_POSITION + 5, 10);
+		_ball = Ball(windowWidth / 2, windowHeight - 55, 10);
 
 		drawWalls();		
 	}
-
-	void createPlayer();
 
 	void drawWalls();
 

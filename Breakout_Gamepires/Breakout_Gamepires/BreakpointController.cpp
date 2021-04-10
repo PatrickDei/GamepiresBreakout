@@ -6,23 +6,71 @@ void BreakpointController::addObjects(vector<BreakpointObject*> objects)
     for (BreakpointObject* object : objects) {
         _shapes.push_back(sf::RectangleShape(sf::Vector2f(object->getWidth(), object->getHeight())));
         _shapes.back().setPosition(object->getPosX(), object->getPosY());
+        //apply texture
+        if (SoftBlock* b = dynamic_cast<SoftBlock*>(object)) {
+            /*sf::Texture t;
+            if (t.loadFromFile(b->getTexturePath()))
+                _shapes.back().setTexture(t);*/
+            _shapes.back().setFillColor(sf::Color::White);
+        }
+        if (MediumBlock* b = dynamic_cast<MediumBlock*>(object)) {
+            /*sf::Texture t;
+            if (t.loadFromFile(b->getTexturePath()))
+                _shapes.back().setTexture(t);*/
+            _shapes.back().setFillColor(sf::Color::Green);
+
+        }
+        if (HardBlock* b = dynamic_cast<HardBlock*>(object)) {
+            /*sf::Texture t;
+            if (t.loadFromFile(b->getTexturePath()))
+                _shapes.back().setTexture(t);*/
+            _shapes.back().setFillColor(sf::Color::Magenta);
+
+        }
+        if (ImpenetrableBlock* b = dynamic_cast<ImpenetrableBlock*>(object)) {
+            /*sf::Texture t;
+            if (t.loadFromFile(b->getTexturePath()))
+                _shapes.back().setTexture(t);*/
+            _shapes.back().setFillColor(sf::Color::Red);
+
+        }
     }
+}
+
+void BreakpointController::removeObject(BreakpointObject* objectToRemove)
+{
+    _objects.erase(std::remove(_objects.begin(), _objects.end(), objectToRemove));
+    for (size_t i = 0; i < _shapes.size(); i++)
+        if (_shapes[i].getPosition().x == objectToRemove->getPosX() && _shapes[i].getPosition().y == objectToRemove->getPosY())
+            _shapes.erase(_shapes.begin() + i);    
+    
+    delete objectToRemove;
+}
+
+void BreakpointController::hitObject(BreakpointObject* hitObject)
+{
+    if (Block* b = dynamic_cast<Block*>(hitObject))
+        if (b->loseHealth()) {
+            //play break sound
+            removeObject(hitObject);
+        }
+    // play hit sound
+}
+
+void BreakpointController::relaunchBall()
+{
+    _ball = Ball(windowWidth / 2, windowHeight - 55, 10);
 }
 
 void BreakpointController::updateFrame(float dt)
 {
-    // player moving
-    _shapes.front().setPosition(_objects.front()->getPosX(), _shapes.front().getPosition().y);
-
     // ball moving
-    float deltaX, deltaY;
-    _ball.getDirections(deltaX, deltaY);
-    _ball.setPosition(_ball.getPosX() + deltaX * dt * _ball.getSpeed(), _ball.getPosY() + deltaY * dt * _ball.getSpeed());
+    _ball.update(dt);
     _ball.setPosition(_ball.getPosX(), _ball.getPosY());
 
     // collision check
-    for (BreakpointObject* object : _objects) {
-        int objectEdge = _ball.isInCollision<int>(object);
+    for (size_t i = 0; i < _objects.size(); i++) {
+        int objectEdge = _ball.isInCollision<int>(_objects[i]);
         if (objectEdge != 0) {
             switch (objectEdge) {
             case 1:
@@ -36,12 +84,21 @@ void BreakpointController::updateFrame(float dt)
             default:
                 _ball.setDirection(_ball.getDirectionAngle() + 180);
             }
+            if (i > 3)
+                hitObject(_objects[i]);
         }
     }
 
+    // player collision
     int angleOfBounce = _ball.isInCollision<float>(_objects.front());
     if (angleOfBounce != 0.0f)
         _ball.setDirection(angleOfBounce);
+
+    // load new level
+    if (_objects.size() < 5) {
+        relaunchBall();
+        addObjects(_levelController.loadBlocksForNextLevel());
+    }
 }
 
 vector<sf::RectangleShape> BreakpointController::shapesToDraw()
@@ -51,7 +108,13 @@ vector<sf::RectangleShape> BreakpointController::shapesToDraw()
 
 void BreakpointController::movePlayer(sf::Vector2i coordinates)
 {
-    _objects.front()->setPosX((float) coordinates.x - _objects.front()->getWidth() / 2);
+    _objects.front()->setPosX((float) coordinates.x - _objects.front()->getWidth() / 2);    
+    _shapes.front().setPosition(_objects.front()->getPosX(), _shapes.front().getPosition().y);
+
+}
+
+void BreakpointController::addSoundToQueue(sf::SoundBuffer* buffer)
+{
 }
 
 Ball BreakpointController::getBallInstance()
@@ -80,6 +143,6 @@ void BreakpointController::drawWalls()
 
 void BreakpointController::deleteObjects()
 {
-    for (BreakpointObject* obj : _objects)
-        delete obj;
+    /*for (BreakpointObject* obj : _objects)
+        delete obj;*/
 }

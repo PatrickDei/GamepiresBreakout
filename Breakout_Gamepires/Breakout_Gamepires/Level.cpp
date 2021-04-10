@@ -1,13 +1,21 @@
 #include "Level.h"
 
-#define length(array) ((sizeof(array)) / (sizeof(array[0])))
-
 std::vector<BreakpointObject*> Level::generateLevel(std::vector<char> characters)
 {
+	_blocks.clear();
 	for (char c : characters)
 		switch (c) {
 		case 'S':
 			_blocks.push_back(new SoftBlock());
+			break;
+		case 'M':
+			_blocks.push_back(new MediumBlock());
+			break;
+		case 'H':
+			_blocks.push_back(new HardBlock());
+			break;
+		case 'I':
+			_blocks.push_back(new ImpenetrableBlock());
 			break;
 		default:
 			_blocks.push_back(new SoftBlock());

@@ -1,5 +1,8 @@
 #pragma once
 #include "SoftBlock.h"
+#include "MediumBlock.h"
+#include "HardBlock.h"
+#include "ImpenetrableBlock.h"
 #include <vector>
 
 class Level

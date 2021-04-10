@@ -14,6 +14,14 @@ int main()
 
     sf::CircleShape ball(5.0f);
 
+    sf::Texture t;
+    t.loadFromFile("Textures/Boards/Boards_01.jpg");
+    t.setRepeated(true);
+
+    sf::Sprite background;
+    background.scale(sf::Vector2f(4, 3));
+    background.setTexture(t);
+
     /*sf::SoundBuffer buffer;
     // load something into the sound buffer...
     buffer.loadFromFile("Sounds/Hit_01.wav");
@@ -57,7 +65,7 @@ int main()
         }
         sf::Time dt = clock.restart();
         gameController.updateFrame(dt.asSeconds());
-        ball.setOrigin(0.5, 0.5),
+        //ball.setOrigin(0.5, 0.5),
         ball.setPosition(gameController.getBallInstance().getPosX(), gameController.getBallInstance().getPosY());
 
         /*if (gameController.soundShouldBePlayed) {
@@ -69,6 +77,7 @@ int main()
 }*/
         window.clear();
 
+        window.draw(background);
         for (sf::RectangleShape shape : gameController.shapesToDraw())
         {
             window.draw(shape);

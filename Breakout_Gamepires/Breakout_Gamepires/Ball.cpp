@@ -50,3 +50,10 @@ vector<Point> Ball::getEdgePoints() {
 		points.push_back(Point(_positionX + cos(i) * _width, _positionY + sin(i) * _height));
 	return points;
 }
+
+void Ball::update(float dt)
+{
+	float deltaX, deltaY;
+	getDirections(deltaX, deltaY);
+	setPosition(getPosX() + deltaX * dt * getSpeed(), getPosY() + deltaY * dt * getSpeed());
+}

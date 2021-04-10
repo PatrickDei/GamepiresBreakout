@@ -4,7 +4,7 @@
     ColumnCount="20"
     RowSpacing="3"
     ColumnSpacing="3"
-    BackgroundTexture="Textures/Boards/Board_01.dds">
+    BackgroundTexture="Textures/Boards/Board_01.jpg">
 	<BrickTypes>
 		<!-- Soft Brick -->
 		<BrickType
@@ -39,7 +39,7 @@
 	</BrickTypes>
       <Bricks levelId="1">
 		S S S S S S S S S S S S S S S S S S S S
-		S S S S S S S S S S S S S S S S S S S S
+		S H S S S S S S S M M S S S S S S S H S
 		S S S S S S S S S S S S S S S S S S S S
 	</Bricks>
 	<Bricks levelId="2">

@@ -9,23 +9,27 @@ using namespace tinyxml2;
 class Block : public BreakpointObject
 {
 protected:
-	const char* _ID;
-	const char* _soundPath;
-	const char* _texturePath;
-	const char* _breakPath;
+	std::string* _ID;
+	std::string* _soundPath;
+	std::string* _texturePath;
+	std::string* _breakPath;
 	int _score;
 	int _blockHealth;
 
-	Block(const char* ID) : _ID(ID), BreakpointObject(0, 0, 25, 25) {
-		_soundPath = getPathByAttributeName<const char*>("HitSound");
-		_breakPath = getPathByAttributeName<const char*>("BreakSound");
-		_texturePath = getPathByAttributeName<const char*>("Texture");
-		_score = getPathByAttributeName<int>("BreakScore");
-		_blockHealth = getPathByAttributeName<int>("HitPoints");
+	Block(const char* ID) : _ID(new std::string(ID)), BreakpointObject(0, 0, 25, 25) {
+		_soundPath = getPathByAttributeName<std::string*>("HitSound");
+		_breakPath = getPathByAttributeName<std::string*>("BreakSound");
+		_texturePath = getPathByAttributeName<std::string*>("Texture");
+		if (ID != "I") {
+			_score = getPathByAttributeName<int>("BreakScore");
+			_blockHealth = getPathByAttributeName<int>("HitPoints");
+		}
+		else {
+			_score = 0;
+			_blockHealth = 1;
+		}
 	}	
 	
-	virtual void loseHealth() = 0;	 
-
 	void destroyBlock();
 
 public:
@@ -33,11 +37,16 @@ public:
 
 	const char* getBreakSoundPath();
 
-	virtual ~Block() {
-		delete[] _ID;
-		delete[] _soundPath;
-		delete[] _breakPath;
-		delete[] _texturePath;
+	const char* getTexturePath();
+
+	// return true if no more health
+	virtual bool loseHealth();	 
+
+	~Block() {
+		delete _ID;
+		delete _soundPath;
+		delete _breakPath;
+		delete _texturePath;
 	}
 
 private:
@@ -51,7 +60,7 @@ private:
 
 		for (XMLElement* brickTypeChildElement = brickTypeElement->FirstChildElement("BrickType"); brickTypeChildElement != nullptr; brickTypeChildElement = brickTypeChildElement->NextSiblingElement())
 		{
-			if (strcmp(brickTypeChildElement->Attribute("Id"), _ID) == 0)
+			if (strcmp(brickTypeChildElement->Attribute("Id"), _ID->c_str()) == 0)
 				return getAttribute<T>(brickTypeChildElement, attributeName);
 		}
 	}
@@ -59,7 +68,11 @@ private:
 	// template for getting proper attribute
 	template<class T>
 	T getAttribute(XMLElement* element, const char* attributeName) {
-		return element->Attribute(attributeName);
+		for (const XMLAttribute* attributeOfElement = element->FirstAttribute(); attributeOfElement != nullptr; attributeOfElement = attributeOfElement->Next())
+			if (strcmp(attributeOfElement->Name(), attributeName) == 0) {
+				std::string* valueToReturn = new string(attributeOfElement->Value());
+				return valueToReturn;
+			}
 	}
 
 	//specialization

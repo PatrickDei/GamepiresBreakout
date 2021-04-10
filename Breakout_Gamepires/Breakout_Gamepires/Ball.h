@@ -49,4 +49,6 @@ public:
 	void invertDirectionVector(const char* axis);
 
 	vector<Point> getEdgePoints() override;
+
+	void update(float dt);
 };
