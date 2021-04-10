@@ -16,7 +16,7 @@ protected:
 	int _score;
 	int _blockHealth;
 
-	Block(const char* ID) : _ID(ID) {
+	Block(const char* ID) : _ID(ID), BreakpointObject(0, 0, 25, 25) {
 		_soundPath = getPathByAttributeName<const char*>("HitSound");
 		_breakPath = getPathByAttributeName<const char*>("BreakSound");
 		_texturePath = getPathByAttributeName<const char*>("Texture");

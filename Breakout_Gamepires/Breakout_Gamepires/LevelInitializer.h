@@ -10,6 +10,6 @@ private:
 	vector<Level> _levels;
 
 public:
-	vector<Level> getLevels();
+	vector<BreakpointObject*> getLevel(int levelID);
 };
 

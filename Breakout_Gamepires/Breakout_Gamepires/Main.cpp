@@ -1,9 +1,6 @@
 #include <SFML/Graphics.hpp>
-#include "tinyxml2.h"
 #include <iostream>
-#include "Ball.h"
 #include "BreakpointController.h"
-#include "SoftBlock.h"
 #include <queue>
 
 using namespace tinyxml2;
@@ -11,11 +8,9 @@ using namespace std;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1600, 900), "Breakpoint");
+    sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "Breakpoint");
 
     BreakpointController gameController = BreakpointController();
-
-    vector<Level> levels = gameController.getLevelInitializer().getLevels();
 
     sf::CircleShape ball(5.0f);
 
@@ -62,7 +57,7 @@ int main()
         }
         sf::Time dt = clock.restart();
         gameController.updateFrame(dt.asSeconds());
-
+        ball.setOrigin(0.5, 0.5),
         ball.setPosition(gameController.getBallInstance().getPosX(), gameController.getBallInstance().getPosY());
 
         /*if (gameController.soundShouldBePlayed) {

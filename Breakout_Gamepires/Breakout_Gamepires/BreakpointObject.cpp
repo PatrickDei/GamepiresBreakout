@@ -1,6 +1,5 @@
 #include "BreakpointObject.h"
 
-
 float BreakpointObject::getPosX() {
 	return _positionX;
 }
@@ -39,32 +38,38 @@ float BreakpointObject::getWidth()
 	return _width;
 }
 
-/*bool BreakpointObject::isInCollision(BreakpointObject* object)
+void BreakpointObject::setWidth(float value)
 {
-	vector<pair<float, float>> obj1Points = this->getEdgePoints();
-	vector<pair<float, float>> obj2Points = object->getEdgePoints();
+	if (value > 0)
+		_width = value;
+}
 
-	for (pair<float, float> point : obj1Points)
-		for (pair<float, float> point2 : obj2Points)
-			if (point == point2)
-				return true;
-
-	return false;
-}*/
-
-/*vector<pair<float, float>> BreakpointObject::getEdgePoints()
+void BreakpointObject::setHeight(float value)
 {
-	vector<pair<float, float>> points;
-	// horizontal points add
-	for (int i = _positionX; i <= _width; i++) {
-		points.push_back(make_pair(i, _positionY));
-		points.push_back(make_pair(i, _positionY + _height));
-	}
-	// vertical points add
-	for (int i = _positionY; i <= _height; i++) {
-		points.push_back(make_pair(_positionX, i));
-		points.push_back(make_pair(_positionX + _width, i));
-	}
+	if (value > 0)
+		_height = value;
+}
+
+void BreakpointObject::getDirections(float& x, float& y)
+{
+	x = 0;
+	y = 0;
+}
+
+vector<Point> BreakpointObject::getEdgePoints() {
+	vector<Point> points;
+	// horizontal top points add
+	for (int i = (int)_positionX; i <= _width + _positionX; i++)
+		points.push_back(Point(i, _positionY));
+	// vertical left points add
+	for (int i = (int)_positionY; i <= _height + _positionY; i++)
+		points.push_back(Point(_positionX, i));
+	// horizontal bottom points add
+	for (int i = (int)_positionX; i <= _width + _positionX; i++)
+		points.push_back(Point(i, _positionY + _height));
+	// vertical right points add
+	for (int i = (int)_positionY; i <= _height + _positionY; i++)
+		points.push_back(Point(_positionX + _width, i));
 
 	return points;
-}*/
+}

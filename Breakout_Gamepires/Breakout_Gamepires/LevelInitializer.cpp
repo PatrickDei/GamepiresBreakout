@@ -1,6 +1,6 @@
 #include "LevelInitializer.h"
 
-vector<Level> LevelInitializer::getLevels()
+vector<BreakpointObject*> LevelInitializer::getLevel(int levelID)
 {
-    return vector<Level>();
+    return _levels[levelID].getObjectsForLevel(levelID);
 }

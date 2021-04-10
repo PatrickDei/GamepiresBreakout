@@ -8,5 +8,7 @@ private:
 public:
 	Wall(float x, float y, float width, float height) : BreakpointObject(x, y, width, height) {}
 
-	float distanceFromPoint(float x, float y);
+	//float distanceFromPoint(float x, float y);
+
+	//virtual float calculateBounceAngle(BreakpointObject* ball);
 };

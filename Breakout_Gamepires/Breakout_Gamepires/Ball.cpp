@@ -26,7 +26,27 @@ void Ball::setDirection(float angle) {
 	_direction = angle;
 }
 
-vector<Point> Ball::getEdgePoints()
+void Ball::invertDirectionVector(const char* axis)
 {
-	return vector<Point>();
+	float x, y;
+	getDirections(x, y);
+	if (strcmp(axis, "x") == 0)
+		x = -x;
+	else
+		y = -y;
+	_direction = atan(y / x) * 180 / PI;
+	if ((x < 0) ? (y > 0) : (y < 0))
+		_direction += 180;
+	if (y < 0)
+		_direction = 180 - _direction;
+	else if (y > 0)
+		_direction = 360 - _direction;
+	setDirection(_direction);
+}
+
+vector<Point> Ball::getEdgePoints() {
+	vector<Point> points;
+	for (int i = 0; i < 360; i++)
+		points.push_back(Point(_positionX + cos(i) * _width, _positionY + sin(i) * _height));
+	return points;
 }

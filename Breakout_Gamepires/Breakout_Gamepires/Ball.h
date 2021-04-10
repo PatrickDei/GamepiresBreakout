@@ -12,25 +12,28 @@ private:
 	float _speed;
 	// angle of ball - always positive [0, 360>
 	float _direction;
-	float _radius;
 
 public:
-	Ball(float x = 0, float y = 0, float radius = 10) : _radius(radius), BreakpointObject(x, y) {
+	Ball(float x = 0, float y = 0, float radius = 10) : BreakpointObject(x, y, radius, radius) {
 		// parameters load
 		tinyxml2::XMLDocument _parameters;
-		_parameters.LoadFile("Params/Parameters.xml");
+		_parameters.LoadFile("Parameters/Parameters.xml");
 		tinyxml2::XMLElement* rootElement = _parameters.RootElement();
 
 		// speed assignment
-		_speed = rootElement->FirstChildElement("defaultBallSpeed")->FloatText();
+		rootElement->FirstChildElement("defaultBallSpeed")->QueryFloatText(&_speed);
 		
 		// direction calculation
 		tinyxml2::XMLElement* angle = rootElement->FirstChildElement("startingAngles");
 		int leftAngle = angle->IntAttribute("leftAngle");
 		int rightAngle = angle->IntAttribute("rightAngle");
 
+		int range = leftAngle - rightAngle;
 		srand((unsigned int)time(NULL));
-		_direction = rand() % leftAngle + rightAngle;
+		if (range != 0)
+			_direction = rand() % range + rightAngle;
+		else
+			_direction = leftAngle;
 	}
 
 	float getSpeed();
@@ -43,5 +46,7 @@ public:
 
 	void setDirection(float angle);
 
-	vector<Point> getEdgePoints();
+	void invertDirectionVector(const char* axis);
+
+	vector<Point> getEdgePoints() override;
 };
