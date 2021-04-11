@@ -60,6 +60,9 @@
     <ClCompile Include="ImpenetrableBlock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TextureController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -107,14 +110,12 @@
     <ClInclude Include="ImpenetrableBlock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TextureController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Profiles\Items.xml" />
     <Xml Include="Parameters\Parameters.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="Sounds\Hit_01.wav">
-      <Filter>Resource Files</Filter>
-    </Media>
   </ItemGroup>
 </Project>

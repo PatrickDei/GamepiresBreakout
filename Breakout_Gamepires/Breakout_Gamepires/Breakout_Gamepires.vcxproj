@@ -32,6 +32,7 @@
     <ClCompile Include="MediumBlock.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SoftBlock.cpp" />
+    <ClCompile Include="TextureController.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
@@ -49,15 +50,13 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SoftBlock.h" />
+    <ClInclude Include="TextureController.h" />
     <ClInclude Include="tinyxml2.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Parameters\Parameters.xml" />
     <Xml Include="Profiles\Items.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="Sounds\Hit_01.wav" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

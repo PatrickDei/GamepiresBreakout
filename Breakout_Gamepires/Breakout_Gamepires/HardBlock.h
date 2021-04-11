@@ -4,6 +4,6 @@
 class HardBlock : public Block
 {
 public:
-	HardBlock() : Block("H") {}
+	HardBlock() : Block('H') {}
 };
 

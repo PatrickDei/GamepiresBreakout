@@ -16,4 +16,8 @@ public:
 	}
 
 	void loseHealth();
+
+	int getScore();
+
+	int getHealth();
 };

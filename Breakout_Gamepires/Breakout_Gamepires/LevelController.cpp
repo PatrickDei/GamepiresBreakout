@@ -21,7 +21,6 @@ std::vector<BreakpointObject*> LevelController::loadBlocksForNextLevel()
 	int rowSpacing = rootElement->IntAttribute("RowSpacing");
 	int columnSpacing = rootElement->IntAttribute("ColumnSpacing");
 
-	//int gapToLeft = (windowWidth - rowCount * (rowSpacing + blocks.front()->getWidth())) / 2;
 	int gapToLeft = 100;
 	int gapToTop = 100;
 

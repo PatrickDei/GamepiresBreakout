@@ -3,7 +3,7 @@
 class ImpenetrableBlock : public Block
 {
 public:
-	ImpenetrableBlock() : Block("I") {}
+	ImpenetrableBlock() : Block('I') {}
 
 	bool loseHealth() override;
 };

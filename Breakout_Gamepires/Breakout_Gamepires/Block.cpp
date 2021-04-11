@@ -8,10 +8,14 @@ bool Block::loseHealth()
 	return false;
 }
 
-void Block::destroyBlock()
+int Block::getScore()
 {
-	//play sound
-	//remove from lists
+	return _score;
+}
+
+char Block::getId()
+{
+	return _ID;
 }
 
 const char* Block::getHitSoundPath()

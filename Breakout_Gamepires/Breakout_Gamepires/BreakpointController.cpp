@@ -10,27 +10,23 @@ void BreakpointController::addObjects(vector<BreakpointObject*> objects)
         if (SoftBlock* b = dynamic_cast<SoftBlock*>(object)) {
             /*sf::Texture t;
             if (t.loadFromFile(b->getTexturePath()))
-                _shapes.back().setTexture(t);*/
+                _shapes.back().setTexture(&t);*/
             _shapes.back().setFillColor(sf::Color::White);
         }
         if (MediumBlock* b = dynamic_cast<MediumBlock*>(object)) {
-            /*sf::Texture t;
-            if (t.loadFromFile(b->getTexturePath()))
-                _shapes.back().setTexture(t);*/
             _shapes.back().setFillColor(sf::Color::Green);
 
         }
         if (HardBlock* b = dynamic_cast<HardBlock*>(object)) {
             /*sf::Texture t;
             if (t.loadFromFile(b->getTexturePath()))
-                _shapes.back().setTexture(t);*/
+                _shapes.back().setTexture(&t);*/
             _shapes.back().setFillColor(sf::Color::Magenta);
-
         }
         if (ImpenetrableBlock* b = dynamic_cast<ImpenetrableBlock*>(object)) {
             /*sf::Texture t;
             if (t.loadFromFile(b->getTexturePath()))
-                _shapes.back().setTexture(t);*/
+                _shapes.back().setTexture(&t);*/
             _shapes.back().setFillColor(sf::Color::Red);
 
         }
@@ -49,12 +45,16 @@ void BreakpointController::removeObject(BreakpointObject* objectToRemove)
 
 void BreakpointController::hitObject(BreakpointObject* hitObject)
 {
-    if (Block* b = dynamic_cast<Block*>(hitObject))
+    if (Block* b = dynamic_cast<Block*>(hitObject)) {            
+        _soundShouldBePlayed = true;
         if (b->loseHealth()) {
-            //play break sound
+            _tempSoundPath = b->getBreakSoundPath();
             removeObject(hitObject);
+            _score += b->getScore();
         }
-    // play hit sound
+        else
+            _tempSoundPath = b->getHitSoundPath();
+    }
 }
 
 void BreakpointController::relaunchBall()
@@ -62,43 +62,83 @@ void BreakpointController::relaunchBall()
     _ball = Ball(windowWidth / 2, windowHeight - 55, 10);
 }
 
+bool BreakpointController::isGameOver()
+{
+    if (dynamic_cast<Player*>(_objects.front())->getHealth() < 1)
+        return true;
+    if (_objects.size() <= 4 + indestructableBlocks())
+        return true;
+    return false;
+}
+
+void BreakpointController::endTheGame()
+{
+    _gameIsOver = true;
+}
+
+int BreakpointController::indestructableBlocks()
+{
+    int impenetrableBlocksCount = 0;
+    for (BreakpointObject* o : _objects)
+        if (ImpenetrableBlock* b = dynamic_cast<ImpenetrableBlock*>(o))
+            impenetrableBlocksCount++;
+    return impenetrableBlocksCount;
+}
+
+int BreakpointController::getCurrentScore()
+{
+    return _score;
+}
+
 void BreakpointController::updateFrame(float dt)
 {
-    // ball moving
-    _ball.update(dt);
-    _ball.setPosition(_ball.getPosX(), _ball.getPosY());
+    if (!isGameOver()) {
 
-    // collision check
-    for (size_t i = 0; i < _objects.size(); i++) {
-        int objectEdge = _ball.isInCollision<int>(_objects[i]);
-        if (objectEdge != 0) {
-            switch (objectEdge) {
-            case 1:
-            case 3:
-                _ball.invertDirectionVector("y");
-                break;
-            case 2:
-            case 4:
-                _ball.invertDirectionVector("x");
-                break;
-            default:
-                _ball.setDirection(_ball.getDirectionAngle() + 180);
+        // ball moving
+        _ball.update(dt);
+        _ball.setPosition(_ball.getPosX(), _ball.getPosY());
+
+        // collision check
+        for (size_t i = 0; i < _objects.size(); i++) {
+            int objectEdge = _ball.isInCollision<int>(_objects[i]);
+            if (objectEdge != 0) {
+                switch (objectEdge) {
+                case 1:
+                case 3:
+                    _ball.invertDirectionVector("y");
+                    break;
+                case 2:
+                case 4:
+                    _ball.invertDirectionVector("x");
+                    break;
+                default:
+                    _ball.setDirection(_ball.getDirectionAngle() + 180);
+                }
+                if (i > 3)
+                    hitObject(_objects[i]);
             }
-            if (i > 3)
-                hitObject(_objects[i]);
+        }
+
+        // player collision
+        int angleOfBounce = _ball.isInCollision<float>(_objects.front());
+        if (angleOfBounce != 0.0f)
+            _ball.setDirection(angleOfBounce);
+
+        // is ball out of screen
+        if (_ball.getPosY() >= windowHeight) {
+            dynamic_cast<Player*>(_objects.front())->loseHealth();
+            relaunchBall();
+        }
+
+        // load new level
+        if (_objects.size() <= indestructableBlocks() + 4) {
+            relaunchBall();
+            _objects.erase(_objects.begin() + 3);
+            addObjects(_levelController.loadBlocksForNextLevel());
         }
     }
-
-    // player collision
-    int angleOfBounce = _ball.isInCollision<float>(_objects.front());
-    if (angleOfBounce != 0.0f)
-        _ball.setDirection(angleOfBounce);
-
-    // load new level
-    if (_objects.size() < 5) {
-        relaunchBall();
-        addObjects(_levelController.loadBlocksForNextLevel());
-    }
+    else
+        endTheGame();
 }
 
 vector<sf::RectangleShape> BreakpointController::shapesToDraw()
@@ -115,6 +155,8 @@ void BreakpointController::movePlayer(sf::Vector2i coordinates)
 
 void BreakpointController::addSoundToQueue(sf::SoundBuffer* buffer)
 {
+    buffer->loadFromFile(_tempSoundPath);
+    _soundShouldBePlayed = false;
 }
 
 Ball BreakpointController::getBallInstance()
@@ -124,9 +166,9 @@ Ball BreakpointController::getBallInstance()
 
 void BreakpointController::drawWalls()
 {
-    _objects.push_back(new Wall(0, 0, 1600, 10));
-    _objects.push_back(new Wall(1590, 0, 10, 900));
-    _objects.push_back(new Wall(0, 0, 10, 900));
+    _objects.push_back(new Wall(0, 0, windowWidth, 10));
+    _objects.push_back(new Wall(windowWidth - 10, 0, 10, windowHeight));
+    _objects.push_back(new Wall(0, 0, 10, windowHeight));
 
     for (BreakpointObject* object : _objects) {
         _shapes.push_back(sf::RectangleShape(sf::Vector2f(object->getWidth(), object->getHeight())));
@@ -141,8 +183,7 @@ void BreakpointController::drawWalls()
     addObjects(_levelController.loadBlocksForNextLevel());
 }
 
-void BreakpointController::deleteObjects()
+int BreakpointController::getHealth()
 {
-    /*for (BreakpointObject* obj : _objects)
-        delete obj;*/
+    return dynamic_cast<Player*>(_objects.front())->getHealth();
 }

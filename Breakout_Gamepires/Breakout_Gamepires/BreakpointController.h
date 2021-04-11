@@ -5,6 +5,9 @@
 #include "Ball.h"
 #include "LevelController.h"
 #include <algorithm>
+#include <SFML/System.hpp>
+#include <queue>
+#include "TextureController.h"
 
 
 class BreakpointController
@@ -14,6 +17,10 @@ private:
 	LevelController _levelController;
 	vector<sf::RectangleShape> _shapes;
 	vector<BreakpointObject*> _objects;
+	bool _gameIsOver;
+	int _score;
+	const char* _tempSoundPath;
+	TextureController _textureController;
 
 	void addObjects(vector<BreakpointObject*> objects);
 
@@ -23,8 +30,18 @@ private:
 
 	void relaunchBall();
 
-public:
-	BreakpointController() {
+	bool isGameOver();
+
+	void endTheGame();
+
+	int indestructableBlocks();
+
+public:	
+	bool _soundShouldBePlayed;
+
+	int getCurrentScore();
+
+	BreakpointController() : _gameIsOver(false), _soundShouldBePlayed(false), _score(0) {
 		tinyxml2::XMLDocument params;
 		params.LoadFile("Parameters/Parameters.xml");
 		tinyxml2::XMLElement* rootElement = params.RootElement();
@@ -37,11 +54,13 @@ public:
 		_ball = Ball(windowWidth / 2, windowHeight - 55, 10);
 
 		drawWalls();		
+
+		_textureController = TextureController();
 	}
 
 	void drawWalls();
 
-	void deleteObjects();
+	int getHealth();
 
 	// used directly from main.cpp
 	void addSoundToQueue(sf::SoundBuffer* buffer);
@@ -52,6 +71,10 @@ public:
 
 	void updateFrame(float dt); 
 
-	vector<sf::RectangleShape> shapesToDraw();
+	std::vector<sf::RectangleShape> shapesToDraw();
+
+	bool getGameOver() {
+		return _gameIsOver;
+	}
 };
 

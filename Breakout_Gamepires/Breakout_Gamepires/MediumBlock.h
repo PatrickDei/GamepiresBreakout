@@ -3,6 +3,6 @@
 class MediumBlock : public Block
 {
 public:
-	MediumBlock() : Block("M") {}
+	MediumBlock() : Block('M') {}
 };
 

@@ -6,6 +6,6 @@ class SoftBlock : public Block
 private:
 
 public:
-	SoftBlock() : Block("S"){}
+	SoftBlock() : Block('S'){}
 };
 

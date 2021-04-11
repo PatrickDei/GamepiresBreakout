@@ -12,7 +12,7 @@ int main()
 
     BreakpointController gameController = BreakpointController();
 
-    sf::CircleShape ball(5.0f);
+    sf::CircleShape ball(5.0f); ball.setOrigin(1, 1);
 
     sf::Texture t;
     t.loadFromFile("Textures/Boards/Boards_01.jpg");
@@ -22,31 +22,26 @@ int main()
     background.scale(sf::Vector2f(4, 3));
     background.setTexture(t);
 
-    /*sf::SoundBuffer buffer;
-    // load something into the sound buffer...
-    buffer.loadFromFile("Sounds/Hit_01.wav");
+    sf::Texture h;
+    h.loadFromFile("Textures/Health/Heart.png");
 
-    sf::Sound sound;
-    sound.setBuffer(buffer);
-    sound.play();*/  
+    sf::Sprite health;
+    health.setTexture(h);
 
-    sf::SoundBuffer buffer;
+    sf::Font font;
+    font.loadFromFile("Fonts/TrainOne-Regular.ttf");
+    sf::Text endGameText;
+    endGameText.setFont(font);
+    endGameText.setCharacterSize(100);
+    endGameText.setString("GAME OVER!");
+    endGameText.setPosition(windowWidth / 2, windowHeight / 2 + 100);
+
+    sf::Text score;
+    score.setFont(font);
+    score.setCharacterSize(70);
+
     std::queue<sf::SoundBuffer> bufferQueue;
-    bufferQueue.push(buffer);
-
     std::queue<sf::Sound> soundQueue;
-    sf::Sound newSound;
-    soundQueue.push(newSound);
-
-    soundQueue.back().setBuffer(bufferQueue.back());
-
-
-    sf::SoundBuffer b;
-    bufferQueue.push(b);
-    
-    sf::Sound s;
-    soundQueue.push(s);
-    soundQueue.back().setBuffer(bufferQueue.back());
 
     sf::Clock clock;
 
@@ -65,29 +60,44 @@ int main()
         }
         sf::Time dt = clock.restart();
         gameController.updateFrame(dt.asSeconds());
-        //ball.setOrigin(0.5, 0.5),
         ball.setPosition(gameController.getBallInstance().getPosX(), gameController.getBallInstance().getPosY());
 
-        /*if (gameController.soundShouldBePlayed) {
-            gameController.addSoundToBuffer(&bufferQueue.front());
-            gameController.addSoundToBuffer2(&bufferQueue.back());
+        if (gameController._soundShouldBePlayed) {
+            sf::SoundBuffer buffer;
+            sf::Sound sound;
+            bufferQueue.push(buffer);
+            soundQueue.push(sound);
+            gameController.addSoundToQueue(&bufferQueue.back());
         
+            soundQueue.back().setBuffer(bufferQueue.back());
             soundQueue.back().play();
-            soundQueue.front().play();
-}*/
+        }
+        if (soundQueue.size() > 0 && soundQueue.front().getStatus() != sf::Sound::Playing) {
+            bufferQueue.pop();
+            soundQueue.pop();
+        }
+
+        score.setString(std::to_string(gameController.getCurrentScore()));
+        score.setPosition(windowWidth / 2 - score.getGlobalBounds().width / 2, windowHeight / 2 - score.getGlobalBounds().height / 2);
+
         window.clear();
 
         window.draw(background);
+        window.draw(score);
         for (sf::RectangleShape shape : gameController.shapesToDraw())
         {
             window.draw(shape);
         }
+        for (int i = 0; i < gameController.getHealth(); i++) {
+            health.setPosition(i * (health.getTexture()->getSize().x + 50) + 50, windowHeight - 150);
+            window.draw(health);
+        }
         window.draw(ball);
+        if (gameController.getGameOver()) {
+            window.draw(endGameText);
+        }
 
         window.display();
     }
-
-    gameController.deleteObjects();
-
     return 0;
 }
