@@ -62,9 +62,9 @@ int ObjectController::indestructableBlocks()
 
 void ObjectController::initialize()
 {
-    _objects.push_back(new Wall(0, 0, windowWidth, 10));
-    _objects.push_back(new Wall(windowWidth - 10, 0, 10, windowHeight));
-    _objects.push_back(new Wall(0, 0, 10, windowHeight));
+    _objects.push_back(new Wall(0, 0, windowWidth, 1));
+    _objects.push_back(new Wall(windowWidth - 1, 0, 1, windowHeight));
+    _objects.push_back(new Wall(0, 0, 1, windowHeight));
 
     for (BreakpointObject* object : _objects) {
         _shapes.push_back(sf::RectangleShape(sf::Vector2f(object->getWidth(), object->getHeight())));
