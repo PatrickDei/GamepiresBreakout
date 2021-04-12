@@ -11,67 +11,21 @@
 
 /// <summary>
 /// Main controller class
-/// Stores objects used in game (implement object controller in case of more object manipulation demand)
-/// Communicates with main
+/// Stores UI info
+/// Communicates with main and other controllers
 /// </summary>
 class BreakpointController
 {
 private:
-	//
 	ObjectController _objectController;
-	std::string _tempSoundPath;	
-	/*Ball _ball;	
-	LevelController _levelController;
-	Player* _player;*/
-
-	/*vector<sf::RectangleShape> _shapes;
-	vector<BreakpointObject*> _objects;*/
+	std::string _tempSoundPath;
 	// info for main
 	bool _gameIsOver;
 	int _score;
 	bool _soundShouldBePlayed;
 
-	/*/// Adds objects to lists in their formats
-	void addObjects(vector<BreakpointObject*> objects);
-
-	/// Removes object safely from game -> need rework for objects that are moving (or good encapsulation)
-	void removeObject(BreakpointObject* objectToRemove);*/
-	
-	
-
-	/*/// Launches a new ball
-	void relaunchBall();
-
-	/// Performs checks for game over
-	bool isGameOver();
-
-	/// Returns number of blocks to ignore
-	int indestructableBlocks();
-
-	/// Performs actions for objects that should always be present
-	void initialize();*/
-
 public:	
-	BreakpointController() : _gameIsOver(false), _soundShouldBePlayed(false), _score(0) {
-		/*tinyxml2::XMLDocument params;
-		params.LoadFile("Parameters/Parameters.xml");
-		tinyxml2::XMLElement* rootElement = params.RootElement();
-
-		float playerWidth = rootElement->FirstChildElement("playerWidth")->FloatText();
-
-		// player
-		_objects.push_back(new Player(0, windowHeight - 50, playerWidth, 15));
-		_player = dynamic_cast<Player*>(_objects.front());
-
-		// ball
-		_ball = Ball(windowWidth / 2, windowHeight - 55, 10);
-
-		initialize();*/
-	}
-
-	/*~BreakpointController() {
-		delete _player;
-	}*/
+	BreakpointController() : _gameIsOver(false), _soundShouldBePlayed(false), _score(0) {}
 
 	/// Returns true if there is a sound in queue
 	bool shouldSoundBePlayed();

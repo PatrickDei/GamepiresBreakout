@@ -19,12 +19,8 @@ private:
 	/// Adds objects to lists in their formats
 	void addObjects(vector<BreakpointObject*> objects);
 
-	
-
 	/// Launches a new ball
 	void relaunchBall();
-
-	
 
 	/// Returns number of blocks to ignore
 	int indestructableBlocks();
@@ -54,12 +50,20 @@ public:
 		delete _player;
 	}
 
+	/// <summary>
+	/// Performs actions every frame
+	/// </summary>
+	/// <param name="breakpointController"> Reference to the "main" controller class </param>
+	/// <param name="dt"> Delta time from last frame </param>
 	void checkCollisions(BreakpointController& breakpointController, float dt);
 
+	/// Returns the ball insance
 	Ball getBall();
 
+	/// Returns the player reference
 	Player* getPlayer();
 
+	/// Returns the shapes that need to be drawn - shapes are already set to appropriate positions
 	std::vector<sf::RectangleShape> getShapes();
 	
 	/// Performs checks for game over
@@ -68,6 +72,7 @@ public:
 	/// Removes object safely from game -> need rework for objects that are moving (or good encapsulation)
 	void removeObject(BreakpointObject* objectToRemove);
 
+	/// Moves the player shape to players position
 	void updatePlayer();
 };
 
