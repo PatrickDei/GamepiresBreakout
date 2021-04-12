@@ -1,6 +1,6 @@
 #include "BreakpointController.h"
 
-void BreakpointController::addObjects(vector<BreakpointObject*> objects)
+/*void BreakpointController::addObjects(vector<BreakpointObject*> objects)
 {
     _objects.insert(_objects.end(), objects.begin(), objects.end());
     for (BreakpointObject* object : objects) {
@@ -29,7 +29,7 @@ void BreakpointController::removeObject(BreakpointObject* objectToRemove)
             _shapes.erase(_shapes.begin() + i);    
     
     delete objectToRemove;
-}
+}*/
 
 void BreakpointController::hitBlock(BreakpointObject* hitObject)
 {
@@ -37,7 +37,7 @@ void BreakpointController::hitBlock(BreakpointObject* hitObject)
         _soundShouldBePlayed = true;
         if (b->loseHealth()) {
             _tempSoundPath = b->getBreakSoundPath();
-            removeObject(hitObject);
+            _objectController.removeObject(hitObject);
             _score += b->getScore();
         }
         else
@@ -45,7 +45,7 @@ void BreakpointController::hitBlock(BreakpointObject* hitObject)
     }
 }
 
-void BreakpointController::relaunchBall()
+/*void BreakpointController::relaunchBall()
 {
     _ball = Ball(windowWidth / 2, windowHeight - 55, 10);
 }
@@ -66,7 +66,7 @@ int BreakpointController::indestructableBlocks()
         if (ImpenetrableBlock* b = dynamic_cast<ImpenetrableBlock*>(o))
             impenetrableBlocksCount++;
     return impenetrableBlocksCount;
-}
+}*/
 
 bool BreakpointController::shouldSoundBePlayed()
 {
@@ -80,14 +80,17 @@ int BreakpointController::getCurrentScore()
 
 void BreakpointController::updateFrame(float dt)
 {
-    if (!isGameOver()) {
+    if (!_objectController.isGameOver()) {
 
         // ball moving
-        _ball.update(dt);
-        _ball.setPosition(_ball.getPosX(), _ball.getPosY());
+        //_objectController.getBall().update(dt);
+        _objectController.checkCollisions(*this, dt);
+        _objectController.updatePlayer();
+        /*_ball.setPosition(_ball.getPosX(), _ball.getPosY());
 
         // collision check
         for (size_t i = 0; i < _objects.size(); i++) {
+
             int objectEdge = _ball.isInCollision<int>(_objects[i]);
             if (objectEdge != 0) {
                 switch (objectEdge) {
@@ -124,7 +127,7 @@ void BreakpointController::updateFrame(float dt)
             if (_objects.size() > 4)
                 _objects.erase(_objects.begin() + 4);
             addObjects(_levelController.loadBlocksForNextLevel());
-        }
+        }*/
     }
     else
         _gameIsOver = true;
@@ -132,7 +135,7 @@ void BreakpointController::updateFrame(float dt)
 
 vector<sf::RectangleShape> BreakpointController::shapesToDraw()
 {
-    return _shapes;
+    return _objectController.getShapes();
 }
 
 bool BreakpointController::getGameOver()
@@ -142,9 +145,9 @@ bool BreakpointController::getGameOver()
 
 void BreakpointController::movePlayer(sf::Vector2i coordinates)
 {
-    _player->setPosX((float) coordinates.x - _player->getWidth() / 2);    
-    _shapes.front().setPosition(_player->getPosX(), _shapes.front().getPosition().y);
-
+    _objectController.getPlayer()->setPosX((float) coordinates.x - _objectController.getPlayer()->getWidth() / 2);    
+    //_objectController.getShapes().front().setPosition(_objectController.getPlayer()->getPosX(), _objectController.getShapes().front().getPosition().y);
+    
 }
 
 void BreakpointController::addSoundToQueue(sf::SoundBuffer* buffer)
@@ -155,10 +158,10 @@ void BreakpointController::addSoundToQueue(sf::SoundBuffer* buffer)
 
 Ball BreakpointController::getBallInstance()
 {
-    return _ball;
+    return _objectController.getBall();
 }
 
-void BreakpointController::initialize()
+/*void BreakpointController::initialize()
 {
     _objects.push_back(new Wall(0, 0, windowWidth, 10));
     _objects.push_back(new Wall(windowWidth - 10, 0, 10, windowHeight));
@@ -175,9 +178,9 @@ void BreakpointController::initialize()
     }
     
     addObjects(_levelController.loadBlocksForNextLevel());
-}
+}*/
 
 int BreakpointController::getHealth()
 {
-    return _player->getHealth();
+    return _objectController.getPlayer()->getHealth();
 }

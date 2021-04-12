@@ -6,6 +6,7 @@
 #include "Ball.h"
 #include "LevelController.h"
 #include "TextureController.h"
+#include "ObjectController.h"
 #include <algorithm>
 
 /// <summary>
@@ -16,28 +17,29 @@
 class BreakpointController
 {
 private:
+	//
+	ObjectController _objectController;
 	std::string _tempSoundPath;	
-	Ball _ball;	
+	/*Ball _ball;	
 	LevelController _levelController;
-	Player* _player;
+	Player* _player;*/
 
-	vector<sf::RectangleShape> _shapes;
-	vector<BreakpointObject*> _objects;
+	/*vector<sf::RectangleShape> _shapes;
+	vector<BreakpointObject*> _objects;*/
 	// info for main
 	bool _gameIsOver;
 	int _score;
 	bool _soundShouldBePlayed;
 
-	/// Adds objects to lists in their formats
+	/*/// Adds objects to lists in their formats
 	void addObjects(vector<BreakpointObject*> objects);
 
 	/// Removes object safely from game -> need rework for objects that are moving (or good encapsulation)
-	void removeObject(BreakpointObject* objectToRemove);
+	void removeObject(BreakpointObject* objectToRemove);*/
 	
-	/// Performs actions that should be performed when Block is hit
-	void hitBlock(BreakpointObject* hitObject);
+	
 
-	/// Launches a new ball
+	/*/// Launches a new ball
 	void relaunchBall();
 
 	/// Performs checks for game over
@@ -47,11 +49,11 @@ private:
 	int indestructableBlocks();
 
 	/// Performs actions for objects that should always be present
-	void initialize();
+	void initialize();*/
 
 public:	
 	BreakpointController() : _gameIsOver(false), _soundShouldBePlayed(false), _score(0) {
-		tinyxml2::XMLDocument params;
+		/*tinyxml2::XMLDocument params;
 		params.LoadFile("Parameters/Parameters.xml");
 		tinyxml2::XMLElement* rootElement = params.RootElement();
 
@@ -64,12 +66,12 @@ public:
 		// ball
 		_ball = Ball(windowWidth / 2, windowHeight - 55, 10);
 
-		initialize();
+		initialize();*/
 	}
 
-	~BreakpointController() {
+	/*~BreakpointController() {
 		delete _player;
-	}
+	}*/
 
 	/// Returns true if there is a sound in queue
 	bool shouldSoundBePlayed();
@@ -100,4 +102,7 @@ public:
 
 	/// Returns true if game is over
 	bool getGameOver();
+
+	/// Performs actions that should be performed when Block is hit
+	void hitBlock(BreakpointObject* hitObject);
 };
