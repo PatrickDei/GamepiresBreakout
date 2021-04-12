@@ -3,9 +3,9 @@
     <totalPlayerHealth>4</totalPlayerHealth>
     <playerWidth>150</playerWidth>
     <startingAngles
-        leftAngle="160"
-        rightAngle="160">
+        leftAngle="110"
+        rightAngle="70">
     </startingAngles>
     <!-- ball speed in pixels/second -->
-    <defaultBallSpeed>500</defaultBallSpeed>
+    <defaultBallSpeed>400</defaultBallSpeed>
 </params>

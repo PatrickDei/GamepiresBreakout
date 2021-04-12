@@ -50,12 +50,6 @@ void BreakpointObject::setHeight(float value)
 		_height = value;
 }
 
-void BreakpointObject::getDirections(float& x, float& y)
-{
-	x = 0;
-	y = 0;
-}
-
 vector<Point> BreakpointObject::getEdgePoints() {
 	vector<Point> points;
 	// horizontal top points add

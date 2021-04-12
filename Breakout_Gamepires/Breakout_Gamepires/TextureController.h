@@ -1,8 +1,11 @@
 #pragma once
-#include <map>
 #include <SFML/Graphics.hpp>
+#include <map>
 #include "tinyxml2.h"
 
+/// <summary>
+/// Class to store textures for later usage 
+/// </summary>
 class TextureController
 {
 private:
@@ -24,5 +27,10 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Gets texture for block type
+	/// </summary>
+	/// <param name="Id"> Id of block type </param>
+	/// <returns> Texture for set Id </returns>
 	sf::Texture getTextureForId(char Id);
 };

@@ -26,11 +26,11 @@ void Ball::setDirection(float angle) {
 	_direction = angle;
 }
 
-void Ball::invertDirectionVector(const char* axis)
+void Ball::invertDirectionVector(char axis)
 {
 	float x, y;
 	getDirections(x, y);
-	if (strcmp(axis, "x") == 0)
+	if (axis == 'x')
 		x = -x;
 	else
 		y = -y;

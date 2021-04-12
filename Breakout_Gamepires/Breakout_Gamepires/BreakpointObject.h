@@ -1,9 +1,11 @@
 #pragma once
 #include <vector>
-#include <iostream>
 
-using namespace std;
+using std::vector;
 
+/**
+* Struct used instead of std::pair with overloaded operator
+*/
 struct Point {
 public:
 	int x;
@@ -16,6 +18,17 @@ public:
 	}
 };
 
+/**
+* Base class for all custom elements for Breakpoint
+* 
+* Inherited by Ball, Block & Wall
+* 
+* Members usd for positioning, collision calculation and help with the SFML library
+* @param _positionX Coordinate x of object
+* @param _positionY Coordinate y of object
+* @param _height Height of object
+* @param _width Width of object
+*/
 class BreakpointObject
 {
 protected:
@@ -26,18 +39,25 @@ protected:
 
 	BreakpointObject(float x = 0, float y = 0, float width = 0, float height = 0) : _positionX(x), _positionY(y), _width(width), _height(height) {}
 
+	/// <summary>
+	/// Calculates the "space" object is occupying
+	/// Overloaded for Ball since it isn't a rectangle
+	/// </summary>
+	/// <returns> List of Points along the objects edges </returns>
 	virtual vector<Point> getEdgePoints();
 
 public:
 	float getPosX();
 
-	void setPosX(float value);
+	/// Overriden by Player
+	virtual void setPosX(float value);
 
 	float getPosY();
 
 	void setPosY(float value);
 
-	void setPosition(float x, float y);
+	/// Overriden by Player
+	virtual void setPosition(float x, float y);
 
 	float getHeight();
 
@@ -47,9 +67,15 @@ public:
 
 	void setHeight(float value);
 
-	virtual void getDirections(float& x, float& y);
-
-	// if called as bool returns if objects are touching, if called as int, returns index of rectangle side
+	/**
+	* Detects wether objects are in collision & returns extra information based on T
+	* 
+	* @tparam T determines what info is sent back
+	*		bool -> are objects in collision
+	*		int -> which side of the rectangle is being touched
+	*		float -> returns the degrees at which the ball should bounce
+	* @param object Object for which we are checking wether this is touching it
+	*/
 	template<class T>
 	T isInCollision(BreakpointObject* object) {
 		vector<Point> obj1Points = this->getEdgePoints();
@@ -58,7 +84,14 @@ public:
 		return checkCollisionByType<T>(obj1Points, obj2Points, object);
 	}
 
-	//currently only used for bool return type, be careful -> just checks if anything is touching
+	/// <summary>
+	/// Returns information about collision based on T parameter
+	/// </summary>
+	/// <typeparam name="T"> Determines the return values </typeparam>
+	/// <param name="obj1Points"> Edge points from this object </param>
+	/// <param name="obj2Points"> Edge points from other object </param>
+	/// <param name="object"> Other object reference </param>
+	/// <returns> Information about collision </returns>
 	template<class T>
 	T checkCollisionByType(vector<Point> obj1Points, vector<Point> obj2Points, BreakpointObject* object) {
 		for (Point point : obj1Points) {
@@ -72,7 +105,8 @@ public:
 		return false;
 	}
 
-	// returns index of side that was touched
+	/// Returns index of side that was touched
+	/// 1 - top, 2 - right, 3 - bottom, 4 - left
 	template<>
 	int checkCollisionByType(vector<Point> obj1Points, vector<Point> obj2Points, BreakpointObject* object) {
 		for (size_t i = 0; i < obj1Points.size(); i++)
@@ -89,6 +123,7 @@ public:
 		return 0;
 	}
 
+	/// Returns angle at which to bounce the object
 	template<>
 	float checkCollisionByType(vector<Point> obj1Points, vector<Point> obj2Points, BreakpointObject* object) {
 		for (Point point : obj1Points) {

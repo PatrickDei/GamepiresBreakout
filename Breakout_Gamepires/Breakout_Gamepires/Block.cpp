@@ -27,8 +27,3 @@ const char* Block::getBreakSoundPath()
 {
 	return _breakPath->c_str();
 }
-
-const char* Block::getTexturePath()
-{
-	return _texturePath->c_str();
-}

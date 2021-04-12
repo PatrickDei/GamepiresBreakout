@@ -1,19 +1,18 @@
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include "BreakpointController.h"
 #include <queue>
 
-using namespace tinyxml2;
-using namespace std;
-
 int main()
 {
+    /// essentials
+    /// dimensions set in LevelController.h
     sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "Breakpoint");
 
     BreakpointController gameController = BreakpointController();
 
     sf::CircleShape ball(5.0f); ball.setOrigin(1, 1);
 
+    /// background
     sf::Texture t;
     t.loadFromFile("Textures/Boards/Boards_01.jpg");
     t.setRepeated(true);
@@ -22,12 +21,14 @@ int main()
     background.scale(sf::Vector2f(4, 3));
     background.setTexture(t);
 
+    // health icons
     sf::Texture h;
     h.loadFromFile("Textures/Health/Heart.png");
 
     sf::Sprite health;
     health.setTexture(h);
-
+    
+    /// UI texts
     sf::Font font;
     font.loadFromFile("Fonts/TrainOne-Regular.ttf");
     sf::Text endGameText;
@@ -40,6 +41,11 @@ int main()
     score.setFont(font);
     score.setCharacterSize(70);
 
+    /**
+    * Elements needed for sounds
+    * 
+    * Queues used to keep sound nodes alive and releasing after sound has been played
+    */
     std::queue<sf::SoundBuffer> bufferQueue;
     std::queue<sf::Sound> soundQueue;
 
@@ -58,11 +64,14 @@ int main()
                 gameController.movePlayer(mousePosition);
             }
         }
+
         sf::Time dt = clock.restart();
         gameController.updateFrame(dt.asSeconds());
+
         ball.setPosition(gameController.getBallInstance().getPosX(), gameController.getBallInstance().getPosY());
 
-        if (gameController._soundShouldBePlayed) {
+        /// game controller says if a sound should be played and buffers request which sound to load
+        if (gameController.shouldSoundBePlayed()) {
             sf::SoundBuffer buffer;
             sf::Sound sound;
             bufferQueue.push(buffer);
@@ -72,6 +81,7 @@ int main()
             soundQueue.back().setBuffer(bufferQueue.back());
             soundQueue.back().play();
         }
+        /// check if there are elements in queues and if ready, release them
         if (soundQueue.size() > 0 && soundQueue.front().getStatus() != sf::Sound::Playing) {
             bufferQueue.pop();
             soundQueue.pop();
@@ -80,6 +90,7 @@ int main()
         score.setString(std::to_string(gameController.getCurrentScore()));
         score.setPosition(windowWidth / 2 - score.getGlobalBounds().width / 2, windowHeight / 2 - score.getGlobalBounds().height / 2);
 
+        /// drawing
         window.clear();
 
         window.draw(background);

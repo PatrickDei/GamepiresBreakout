@@ -1,17 +1,20 @@
 #pragma once
 #include "BreakpointObject.h"
 #include <math.h>
-#include "tinyxml2.h"
 #include <time.h>
+#include "tinyxml2.h"
 
 const double PI = 3.141592654;
 
+/// <summary>
+/// Class used for the ball instance
+/// </summary>
 class Ball : public BreakpointObject
 {
 private:
-	float _speed;
-	// angle of ball - always positive [0, 360>
+	/// Angle of ball - always positive [0, 360>
 	float _direction;
+	float _speed;
 
 public:
 	Ball(float x = 0, float y = 0, float radius = 10) : BreakpointObject(x, y, radius, radius) {
@@ -30,6 +33,7 @@ public:
 
 		int range = leftAngle - rightAngle;
 		srand((unsigned int)time(NULL));
+		// check if exact angle is assigned (in Parameters.xml) -> leftAngle == rightAngle
 		if (range != 0)
 			_direction = rand() % range + rightAngle;
 		else
@@ -42,13 +46,20 @@ public:
 
 	float getDirectionAngle();
 
+	/// Assigns x & y values of ball direction
 	void getDirections(float& x, float& y);
 
+	/// Corrects the angle if it is set in negative value or value greater than 360 degrees
 	void setDirection(float angle);
 
-	void invertDirectionVector(const char* axis);
+	/// <summary>
+	/// Flips the direction of ball around an axis
+	/// </summary>
+	/// <param name="axis"> Axis around which to turn the ball around </param>
+	void invertDirectionVector(char axis);
 
 	vector<Point> getEdgePoints() override;
 
+	/// Updates ball's position based on passed time so it is consistent no matter the framerate
 	void update(float dt);
 };

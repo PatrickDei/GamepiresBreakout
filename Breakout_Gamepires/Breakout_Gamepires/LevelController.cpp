@@ -2,7 +2,7 @@
 
 void LevelController::adjustBlockWidth(std::vector<BreakpointObject*>& objects, int gap, int columnCount, int columnSpacing)
 {
-	int blockWidth = (windowWidth - 2 * gap - columnCount * columnSpacing) / columnCount;
+	float blockWidth = (int) ((windowWidth - 2 * gap - columnCount * columnSpacing) / columnCount);
 	for (BreakpointObject* object : objects)
 		object->setWidth(blockWidth);
 }
@@ -26,7 +26,7 @@ std::vector<BreakpointObject*> LevelController::loadBlocksForNextLevel()
 
 	adjustBlockWidth(blocks, gapToLeft, columnCount, columnSpacing);
 
-	for (int i = 0; i < blocks.size(); i++)
+	for (size_t i = 0; i < blocks.size(); i++)
 		blocks[i]->setPosition(gapToLeft + i * (blocks.front()->getWidth() + columnSpacing) - (i / columnCount) * (columnCount * (columnSpacing + blocks.front()->getWidth())), 
 			gapToTop + (rowSpacing + blocks.front()->getHeight()) * (i / columnCount + 1));
 

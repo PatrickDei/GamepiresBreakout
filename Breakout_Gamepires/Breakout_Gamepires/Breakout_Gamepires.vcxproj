@@ -27,7 +27,6 @@
     <ClCompile Include="ImpenetrableBlock.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LevelController.cpp" />
-    <ClCompile Include="LevelInitializer.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MediumBlock.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -45,10 +44,8 @@
     <ClInclude Include="ImpenetrableBlock.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelController.h" />
-    <ClInclude Include="LevelInitializer.h" />
     <ClInclude Include="MediumBlock.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="SoftBlock.h" />
     <ClInclude Include="TextureController.h" />
     <ClInclude Include="tinyxml2.h" />
